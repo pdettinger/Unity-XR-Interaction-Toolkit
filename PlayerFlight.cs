@@ -32,7 +32,7 @@ public class PlayerFlight : MonoBehaviour
             Vector3 worldRotation = TrackingReference.TransformDirection(Vector3.forward);
             _body.AddForce(worldRotation * FlyForce, ForceMode.Acceleration);        
         } 
-        if (!FlyActionReference.action.IsPressed() && if StopImmediately)
+        if (!FlyActionReference.action.IsPressed() && StopImmediately)
         {
             
 

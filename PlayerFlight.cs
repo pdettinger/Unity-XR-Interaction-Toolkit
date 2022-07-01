@@ -5,46 +5,36 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 
-public class PlayerFlight : MonoBehaviour
+public class PlayerFlight2 : MonoBehaviour
 {
 
     [SerializeField] InputActionReference FlyActionReference; // Set to XRI righthand/fly
+    [SerializeField] InputActionReference AirbreakActionReference; // Set to XRI righthand/Airbreak
     [SerializeField] Transform TrackingReference; // Drag Your hand gameobject into this field
-    [SerializeField] private float FlyForce = 50.0f;
-    [SerializeField] bool StopImmediately = true;
+    [SerializeField] float FlyForce = 50.0f;
+    [SerializeField] float AirbreakFactor = 5.0f;
+    
 
     Rigidbody _body;
-
-    bool FlightState;
+    Vector3 TurnVector;
 
     void Awake()
     {
         _body = GetComponent<Rigidbody>();
         _body.constraints = RigidbodyConstraints.FreezeRotation;
-        FlightState = false;
     }
 
     void FixedUpdate()
     {
         if (FlyActionReference.action.IsPressed())
         {
-            FlightState = true;
             Vector3 worldRotation = TrackingReference.TransformDirection(Vector3.forward);
             _body.AddForce(worldRotation * FlyForce, ForceMode.Acceleration);        
         } 
-        if (!FlyActionReference.action.IsPressed() && StopImmediately)
+        if (!FlyActionReference.action.IsPressed() && AirbreakActionReference.action.IsPressed())
         {
-            
-
-            if (FlightState)
-            {
-            _body.constraints = RigidbodyConstraints.FreezePosition; // Stop immediately
-            _body.constraints = RigidbodyConstraints.None; // turn gravity back on
-            _body.constraints = RigidbodyConstraints.FreezeRotation; //prevent rotations
-            FlightState = false;
-            }
-
-        
+            Vector3 crrntVelocity = _body.velocity;
+            _body.AddForce(crrntVelocity * -1 * AirbreakFactor, ForceMode.Acceleration); 
         }
     }
 }

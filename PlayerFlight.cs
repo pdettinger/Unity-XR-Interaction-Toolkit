@@ -11,6 +11,7 @@ public class PlayerFlight : MonoBehaviour
     [SerializeField] InputActionReference FlyActionReference; // Set to XRI righthand/fly
     [SerializeField] Transform TrackingReference; // Drag Your hand gameobject into this field
     [SerializeField] private float FlyForce = 50.0f;
+    [SerializeField] bool StopImmediately = true;
 
     Rigidbody _body;
 
@@ -31,8 +32,10 @@ public class PlayerFlight : MonoBehaviour
             Vector3 worldRotation = TrackingReference.TransformDirection(Vector3.forward);
             _body.AddForce(worldRotation * FlyForce, ForceMode.Acceleration);        
         } 
-        if (!FlyActionReference.action.IsPressed())
+        if (!FlyActionReference.action.IsPressed() && if StopImmediately)
         {
+            
+
             if (FlightState)
             {
             _body.constraints = RigidbodyConstraints.FreezePosition; // Stop immediately
@@ -41,6 +44,7 @@ public class PlayerFlight : MonoBehaviour
             FlightState = false;
             }
 
+        
         }
     }
 }

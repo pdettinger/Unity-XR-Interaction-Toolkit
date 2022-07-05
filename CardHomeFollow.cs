@@ -18,7 +18,7 @@ public class CardHomeFollow : MonoBehaviour
 
     void Awake()
     {
-        _Cardbody = GetComponent<Rigidbody>();  
+        _Cardbody = CardObject.GetComponent<Rigidbody>();  
         _Cardhome = HomeObject.transform;
         _Cardbody.collisionDetectionMode = CollisionDetectionMode.Continuous;   
         _Cardbody.interpolation - RigidbodyInterpolation.Interpolate;  
